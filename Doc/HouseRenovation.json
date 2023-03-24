@@ -1,0 +1,186 @@
+{
+    "openapi":"3.0.2",
+    "info": {
+      "title":"HouseRenovstion",
+      "version":"1.0"
+    },
+    "servers": [
+      {"url":"https://api.server.test/v1"}
+    ],
+    "tags": [{
+        "name": "Account",
+        "description": "Everything about User Accounts"
+    },
+    {
+        "name": "RenovationRequest"
+    }],
+    "paths": {
+        "/Account/User/": {
+            "post": {
+                "description": "Registers a new Houseowner to the system",
+                "summary": "Registers a new Houseowner to the system",
+                "tags": ["Account"],
+                "parameters": [
+                    {
+                        "name": "FirstName",
+                        "in": "query",
+                        "required": true,
+                        "schema":{"type": "string"}
+                    },
+                    {
+                        "name": "LastName",
+                        "in": "query",
+                        "required": true,
+                        "schema":{"type": "string"}
+                    },
+                    {
+                        "name": "Address",
+                        "in": "query",
+                        "required": true,
+                        "schema":{"type": "string"}
+                    },
+                    {
+                        "name": "Birthdate",
+                        "in": "query",
+                        "required": false,
+                        "schema":{"type": "string"}
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "put":{
+                "description": "Edit Houseowner's profile",
+                "tags": ["Account"],
+                "parameters": [
+                    {
+                        "name": "Id",
+                        "in": "query",
+                        "required": true,
+                        "schema":{
+                            "type":"integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "FirstName",
+                        "in": "query",
+                        "required": true,
+                        "schema":{"type": "string"}
+                    },
+                    {
+                        "name": "LastName",
+                        "in": "query",
+                        "required": true,
+                        "schema":{"type": "string"}
+                    },
+                    {
+                        "name": "Address",
+                        "in": "query",
+                        "required": true,
+                        "schema":{"type": "string"}
+                    },
+                    {
+                        "name": "Birthdate",
+                        "in": "query",
+                        "required": false,
+                        "schema":{"type": "string"}
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "delete":{
+                "description": "Deletes a Houseowner's profile",
+                "tags": ["Account"],
+                "parameters": [
+                    {
+                        "name": "Id",
+                        "in": "path",
+                        "required": true,
+                        "schema":{
+                            "type":"integer",
+                            "format": "int32"}
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "get":{
+                "description": "Gets the information of a client",
+                "tags": ["Account"],
+                "responses": {
+                    "200": {
+                        "description": "Gets the information of a client"
+                      }
+                }
+            }
+            
+
+        },
+        "/Account/Users":{
+            "get":{
+                "description": "Gets the list of Users",
+                "tags": ["Account"],
+                "responses": {
+                    "200":{
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/Account/Login": {
+            "post": {
+                "description": "Registers a new Houseowner to the system",
+                "tags": ["Account"],
+                "parameters": [
+                    {
+                        "name": "Username",
+                        "required": true,
+                        "schema":{
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "Password",
+                        "required": true,
+                        "schema":{
+                            "type": "string"
+                        }
+                    }],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/Account/Logout": {
+            "get": {
+                "description": "Registers a new Houseowner to the system",
+                "tags": ["Account"],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+
+        "/RenovationRequest":{
+            "post":{
+                "tags": ["RenovationRequest"],
+                "description": "New request"
+            }
+        }
+    }
+  }
