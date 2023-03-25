@@ -15,7 +15,8 @@
             "description": "Everything about User Accounts"
         },
         {
-            "name": "RenovationRequest"
+            "name": "RenovationRequest",
+            "description": ""
         }
     ],
     "paths": {
@@ -372,7 +373,9 @@
         },
         "/Account/Logout": {
             "post": {
-                "tags": ["Account"],
+                "tags": [
+                    "Account"
+                ],
                 "summary": "Logs out the currently authenticated user",
                 "description": "Invalidates the authentication token of the current user, effectively logging them out",
                 "responses": {
@@ -385,12 +388,13 @@
                 }
             }
         },
-        "/RenovationRequest": {
+        "/AddRenovationRequest": {
             "post": {
                 "tags": [
                     "RenovationRequest"
                 ],
-                "description": "New request",
+                "summary": "New renovation request",
+                "description": "New renovation request",
                 "parameters": [
                     {
                         "name": "ClientId",
@@ -400,46 +404,108 @@
                             "type": "integer",
                             "format": "int64"
                         }
+                    },
+                    {
+                        "name": "HouseAddress",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "description",
+                        "required": true,
+                        "description": "Provide a description for the renovation request",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK"
+                        "description": "Request submitted"
+                    },
+                    "default": {
+                        "description": "unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
                     }
                 }
-            },
+            }
+        },
+        "/EditRenovationRequestById": {
             "put": {
                 "tags": [
                     "RenovationRequest"
                 ],
-                "description": "Edit a renovation request",
+                "summary": "Edit a renovation request by Id",
+                "description": "Edit a renovation request by Id",
                 "parameters": [
                     {
-                        "name": "ClientId",
+                        "name": "Id",
+                        "description": "RequestID",
                         "required": true,
                         "in": "query",
                         "schema": {
                             "type": "integer",
                             "format": "int64"
                         }
+                    },
+                    {
+                        "name": "HouseAddress",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "description",
+                        "required": true,
+                        "description": "Provide a description for the renovation request",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK"
+                        "description": "Request updated successfully"
+                    },
+                    "default": {
+                        "description": "unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
                     }
                 }
-            },
+            }
+        },
+        "/DeleteRenovationRequestById/{Id}": {
             "delete": {
                 "tags": [
                     "RenovationRequest"
                 ],
-                "description": "Deletes a renovation request",
+                "summary": "Deletes a renovation request by Id",
+                "description": "Deletes a renovation request by Id",
                 "parameters": [
                     {
                         "name": "Id",
-                        "required": true,
+                        "description": "Request Id",
                         "in": "path",
+                        "required": true,
                         "schema": {
                             "type": "integer",
                             "format": "int64"
@@ -447,8 +513,40 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "200":{
+                        "description": "Successful"
+                    },
+                    "404":{
+                        "description": "Request not found"
+                    }
+                }
+            }
+        },
+        "/GetRenovationRequestById/{Id}":{
+            "get":{
+                "tags": ["RenovationRequest"],
+                "summary": "Get renovation request by Id",
+                "description": "Get renovation request by Id",
+                "parameters": [{
+                    "name":"Id",
+                    "description": "RequestId",
+                    "in": "path",
+                    "required": true,
+                    "schema":{
+                        "type":"integer",
+                        "format": "int64"
+                    }
+                }],
+                "responses":{
+                    "200":{
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RenovationRequest"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -464,12 +562,12 @@
                         "format": "int64",
                         "example": "10"
                     },
-                    "Username":{
+                    "Username": {
                         "type": "string"
                     },
-                    "Email Address":{
+                    "Email Address": {
                         "type": "string",
-                        "example":"john.cena@example.com"
+                        "example": "john.cena@example.com"
                     },
                     "Firstname": {
                         "type": "string",
@@ -486,6 +584,16 @@
                     "Birthdate": {
                         "type": "string",
                         "example": "10/10/1990"
+                    }
+                }
+            },
+            "RenovationRequest":{
+                "type":"object",
+                "properties": {
+                    "Id":{
+                        "description": "RequestId",
+                        "type": "integer",
+                        "format": "int64"
                     }
                 }
             },
