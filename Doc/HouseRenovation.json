@@ -61,7 +61,7 @@
                         }
                     },
                     {
-                        "name": "FirstName",
+                        "name": "Firstname",
                         "in": "query",
                         "required": true,
                         "schema": {
@@ -69,7 +69,7 @@
                         }
                     },
                     {
-                        "name": "LastName",
+                        "name": "Lastname",
                         "in": "query",
                         "required": true,
                         "schema": {
@@ -154,7 +154,7 @@
                         }
                     },
                     {
-                        "name": "FirstName",
+                        "name": "Firstname",
                         "in": "query",
                         "required": true,
                         "schema": {
@@ -162,7 +162,7 @@
                         }
                     },
                     {
-                        "name": "LastName",
+                        "name": "Lastname",
                         "in": "query",
                         "required": true,
                         "schema": {
@@ -471,11 +471,11 @@
                         "type": "string",
                         "example":"john.cena@example.com"
                     },
-                    "FirstName": {
+                    "Firstname": {
                         "type": "string",
                         "example": "John"
                     },
-                    "LastName": {
+                    "Lastname": {
                         "type": "string",
                         "example": "Cena"
                     },
