@@ -1,49 +1,63 @@
 {
-    "openapi":"3.0.2",
+    "openapi": "3.0.2",
     "info": {
-      "title":"HouseRenovstion",
-      "version":"1.0"
+        "title": "HouseRenovstion",
+        "version": "1.0"
     },
     "servers": [
-      {"url":"https://api.server.test/v1"}
+        {
+            "url": "https://api.server.test/v1"
+        }
     ],
-    "tags": [{
-        "name": "Account",
-        "description": "Everything about User Accounts"
-    },
-    {
-        "name": "RenovationRequest"
-    }],
+    "tags": [
+        {
+            "name": "Account",
+            "description": "Everything about User Accounts"
+        },
+        {
+            "name": "RenovationRequest"
+        }
+    ],
     "paths": {
-        "/Account/User/": {
+        "/Account/AddUser": {
             "post": {
                 "description": "Registers a new Houseowner to the system",
                 "summary": "Registers a new Houseowner to the system",
-                "tags": ["Account"],
+                "tags": [
+                    "Account"
+                ],
                 "parameters": [
                     {
                         "name": "FirstName",
                         "in": "query",
                         "required": true,
-                        "schema":{"type": "string"}
+                        "schema": {
+                            "type": "string"
+                        }
                     },
                     {
                         "name": "LastName",
                         "in": "query",
                         "required": true,
-                        "schema":{"type": "string"}
+                        "schema": {
+                            "type": "string"
+                        }
                     },
                     {
                         "name": "Address",
                         "in": "query",
                         "required": true,
-                        "schema":{"type": "string"}
+                        "schema": {
+                            "type": "string"
+                        }
                     },
                     {
                         "name": "Birthdate",
                         "in": "query",
                         "required": false,
-                        "schema":{"type": "string"}
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 ],
                 "responses": {
@@ -51,17 +65,21 @@
                         "description": "OK"
                     }
                 }
-            },
-            "put":{
+            }
+        },
+        "/Account/EditUser": {
+            "put": {
                 "description": "Edit Houseowner's profile",
-                "tags": ["Account"],
+                "tags": [
+                    "Account"
+                ],
                 "parameters": [
                     {
                         "name": "Id",
                         "in": "query",
                         "required": true,
-                        "schema":{
-                            "type":"integer",
+                        "schema": {
+                            "type": "integer",
                             "format": "int32"
                         }
                     },
@@ -69,25 +87,33 @@
                         "name": "FirstName",
                         "in": "query",
                         "required": true,
-                        "schema":{"type": "string"}
+                        "schema": {
+                            "type": "string"
+                        }
                     },
                     {
                         "name": "LastName",
                         "in": "query",
                         "required": true,
-                        "schema":{"type": "string"}
+                        "schema": {
+                            "type": "string"
+                        }
                     },
                     {
                         "name": "Address",
                         "in": "query",
                         "required": true,
-                        "schema":{"type": "string"}
+                        "schema": {
+                            "type": "string"
+                        }
                     },
                     {
                         "name": "Birthdate",
                         "in": "query",
                         "required": false,
-                        "schema":{"type": "string"}
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 ],
                 "responses": {
@@ -96,17 +122,22 @@
                     }
                 }
             },
-            "delete":{
+        },
+        "/Account/DeleteUser/{Id}": {
+            "delete": {
                 "description": "Deletes a Houseowner's profile",
-                "tags": ["Account"],
+                "tags": [
+                    "Account"
+                ],
                 "parameters": [
                     {
                         "name": "Id",
                         "in": "path",
                         "required": true,
-                        "schema":{
-                            "type":"integer",
-                            "format": "int32"}
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
                     }
                 ],
                 "responses": {
@@ -114,25 +145,40 @@
                         "description": "OK"
                     }
                 }
-            },
-            "get":{
+            }
+        },
+        "/Account/GetUserById/{Id}": {
+            "get": {
                 "description": "Gets the information of a client",
-                "tags": ["Account"],
+                "tags": [
+                    "Account"
+                ],
+                "parameters": [
+                    {
+                        "name": "Id",
+                        "required": true,
+                        "in": "path",
+                        "schema":{
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Gets the information of a client"
-                      }
+                    }
                 }
             }
-            
-
         },
-        "/Account/Users":{
-            "get":{
-                "description": "Gets the list of Users",
-                "tags": ["Account"],
+        "/Account/GetUsers": {
+            "get": {
+                "description": "Gets the list of Users paged",
+                "tags": [
+                    "Account"
+                ],
                 "responses": {
-                    "200":{
+                    "200": {
                         "description": "OK"
                     }
                 }
@@ -141,22 +187,27 @@
         "/Account/Login": {
             "post": {
                 "description": "Registers a new Houseowner to the system",
-                "tags": ["Account"],
+                "tags": [
+                    "Account"
+                ],
                 "parameters": [
                     {
                         "name": "Username",
                         "required": true,
-                        "schema":{
+                        "in": "query",
+                        "schema": {
                             "type": "string"
                         }
                     },
                     {
                         "name": "Password",
                         "required": true,
-                        "schema":{
+                        "in": "query",
+                        "schema": {
                             "type": "string"
                         }
-                    }],
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK"
@@ -167,7 +218,9 @@
         "/Account/Logout": {
             "get": {
                 "description": "Registers a new Houseowner to the system",
-                "tags": ["Account"],
+                "tags": [
+                    "Account"
+                ],
                 "responses": {
                     "200": {
                         "description": "OK"
@@ -175,12 +228,73 @@
                 }
             }
         },
-
-        "/RenovationRequest":{
-            "post":{
-                "tags": ["RenovationRequest"],
-                "description": "New request"
+        "/RenovationRequest": {
+            "post": {
+                "tags": [
+                    "RenovationRequest"
+                ],
+                "description": "New request",
+                "parameters": [
+                    {
+                        "name": "ClientId",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "RenovationRequest"
+                ],
+                "description": "Edit a renovation request",
+                "parameters": [
+                    {
+                        "name": "ClientId",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "RenovationRequest"
+                ],
+                "description": "Deletes a renovation request",
+                "parameters": [
+                    {
+                        "name": "Id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
             }
         }
     }
-  }
+}
