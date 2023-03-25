@@ -21,12 +21,45 @@
     "paths": {
         "/Account/AddUser": {
             "post": {
-                "description": "Registers a new Houseowner to the system",
                 "summary": "Registers a new Houseowner to the system",
+                "description": "Registers a new Houseowner to the system",
                 "tags": [
                     "Account"
                 ],
                 "parameters": [
+                    {
+                        "name": "Username",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "Email Address",
+                        "in": "query",
+                        "required": true,
+                        "example": "keanu.reeves@domain.com",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "Password",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "Re-Password",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
                     {
                         "name": "FirstName",
                         "in": "query",
@@ -62,14 +95,18 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK"
+                        "description": "Successful operation"
+                    },
+                    "405": {
+                        "description": "Validation exception"
                     }
                 }
             }
         },
         "/Account/EditUser": {
             "put": {
-                "description": "Edit Houseowner's profile",
+                "summary": "Edits Houseowner's profile",
+                "description": "Edits Houseowner's profile",
                 "tags": [
                     "Account"
                 ],
@@ -80,7 +117,40 @@
                         "required": true,
                         "schema": {
                             "type": "integer",
-                            "format": "int32"
+                            "format": "int64"
+                        }
+                    },
+                    {
+                        "name": "Username",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "Email Address",
+                        "in": "query",
+                        "required": true,
+                        "example": "keanu.reeves@domain.com",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "Password",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "Re-Password",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
                         }
                     },
                     {
@@ -118,13 +188,23 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK"
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Invalid ID supplied"
+                    },
+                    "404": {
+                        "description": "User not found"
+                    },
+                    "405": {
+                        "description": "Validation exception"
                     }
                 }
-            },
+            }
         },
         "/Account/DeleteUser/{Id}": {
             "delete": {
+                "summary": "Deletes a Houseowner's profile",
                 "description": "Deletes a Houseowner's profile",
                 "tags": [
                     "Account"
@@ -136,20 +216,27 @@
                         "required": true,
                         "schema": {
                             "type": "integer",
-                            "format": "int32"
+                            "format": "int64"
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK"
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Invalid ID supplied"
+                    },
+                    "404": {
+                        "description": "User not found"
                     }
                 }
             }
         },
         "/Account/GetUserById/{Id}": {
             "get": {
-                "description": "Gets the information of a client",
+                "summary": "Get the information of a client",
+                "description": "Get the information of a client",
                 "tags": [
                     "Account"
                 ],
@@ -158,35 +245,97 @@
                         "name": "Id",
                         "required": true,
                         "in": "path",
-                        "schema":{
+                        "schema": {
                             "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ID supplied"
+                    },
+                    "404": {
+                        "description": "User not found"
+                    }
+                }
+            }
+        },
+        "/Account/GetUsers/{Page}/?limit=50": {
+            "get": {
+                "summary": "Gets the list of Users paged",
+                "description": "Gets the list of Users paged",
+                "tags": [
+                    "Account"
+                ],
+                "parameters": [
+                    {
+                        "name": "Page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "required": false,
+                        "description": "How many items to return at one time (max 100)",
+                        "schema": {
+                            "type": "integer",
+                            "maximum": 100,
                             "format": "int32"
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "Gets the information of a client"
-                    }
-                }
-            }
-        },
-        "/Account/GetUsers": {
-            "get": {
-                "description": "Gets the list of Users paged",
-                "tags": [
-                    "Account"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK"
+                        "description": "A paged array of Users",
+                        "headers": {
+                            "x-next": {
+                                "description": "A link to the next page of responses",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
                     }
                 }
             }
         },
         "/Account/Login": {
             "post": {
-                "description": "Registers a new Houseowner to the system",
+                "summary": "Authenticates the User to the system",
+                "description": "Authenticates the User to the system",
                 "tags": [
                     "Account"
                 ],
@@ -211,19 +360,27 @@
                 "responses": {
                     "200": {
                         "description": "OK"
+                    },
+                    "404": {
+                        "description": "Username and/or Password not found"
+                    },
+                    "403": {
+                        "description": "Access Denied"
                     }
                 }
             }
         },
         "/Account/Logout": {
-            "get": {
-                "description": "Registers a new Houseowner to the system",
-                "tags": [
-                    "Account"
-                ],
+            "post": {
+                "tags": ["Account"],
+                "summary": "Logs out the currently authenticated user",
+                "description": "Invalidates the authentication token of the current user, effectively logging them out",
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "204": {
+                        "description": "Logout successful"
+                    },
+                    "401": {
+                        "description": "Unauthorized: authentication token is missing or invalid"
                     }
                 }
             }
@@ -241,7 +398,7 @@
                         "in": "query",
                         "schema": {
                             "type": "integer",
-                            "format": "int32"
+                            "format": "int64"
                         }
                     }
                 ],
@@ -263,7 +420,7 @@
                         "in": "query",
                         "schema": {
                             "type": "integer",
-                            "format": "int32"
+                            "format": "int64"
                         }
                     }
                 ],
@@ -285,13 +442,66 @@
                         "in": "path",
                         "schema": {
                             "type": "integer",
-                            "format": "int32"
+                            "format": "int64"
                         }
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "User": {
+                "type": "object",
+                "properties": {
+                    "Id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "example": "10"
+                    },
+                    "Username":{
+                        "type": "string"
+                    },
+                    "Email Address":{
+                        "type": "string",
+                        "example":"john.cena@example.com"
+                    },
+                    "FirstName": {
+                        "type": "string",
+                        "example": "John"
+                    },
+                    "LastName": {
+                        "type": "string",
+                        "example": "Cena"
+                    },
+                    "Address": {
+                        "type": "string",
+                        "example": "No 10, Example St."
+                    },
+                    "Birthdate": {
+                        "type": "string",
+                        "example": "10/10/1990"
+                    }
+                }
+            },
+            "Error": {
+                "type": "object",
+                "required": [
+                    "code",
+                    "message"
+                ],
+                "properties": {
+                    "code": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "message": {
+                        "type": "string"
                     }
                 }
             }
